@@ -16,13 +16,47 @@
                   </div>
             </el-carousel-item>
         </el-carousel>
+        <div class="banner-content">  
+          <el-row type="flex" class="search-tab">
+            <!-- tab切换 -->
+            <span
+            v-for="(item,index) in options" :key="index"
+            :class="{action:currentTarget == index}"
+            @click="headleTaget(index)"
+            >
+            <strong>{{item.name}}</strong>
+            </span>
+          </el-row>
+          <el-row type="flex" class="search-input" align="middle" >
+            <!-- 输入框 -->
+            <input type="text" :placeholder="options[currentTarget].placeholder" />
+            <i class="el-icon-search" ></i>
+          </el-row>
+        </div>
+
     </div>
+  
 </template>
 <script>
 export default {
   data(){
     return{
-      banners:[]
+      banners:[],
+      options:[
+        {
+          name:"攻略",
+          placeholder:"搜索城市"
+        },
+        {
+          name:"酒店",
+          placeholder:"请输入酒店"
+        },
+        {
+          name:"机票",
+          placeholder:"请输入出发地"
+        }
+      ],
+      currentTarget:0
     }
   },
   mounted(){
@@ -34,6 +68,15 @@ export default {
       const {data} = res.data
       this.banners= data
     })
+  },
+  methods:{
+    headleTaget(index){
+      this.currentTarget = index;
+      if(index === 2){
+        // this.$roter.push ('/air')
+        this.$router.push("/air")
+      }
+    }
   }
 
 }
@@ -52,6 +95,90 @@ export default {
     .banner-image{
         width:100%;
         height:100%;
+    }
+    .banner-content{
+      z-index: 9;
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      width: 1000px;
+      margin-left: -500px;
+      border-top:1px transparent solid;
+      .search-tab{
+        width: 550px;
+        margin: 0 auto;
+        .action{        
+          strong{
+            color: #333;
+          }
+          &:after{
+            background-color: #eee;
+          }
+        }
+        span{
+                width:82px;
+                height:36px;
+                display:block;
+                position: relative;
+                margin-right:8px;
+                cursor: pointer;
+
+                strong{
+                position:absolute;
+                z-index:2;
+                display: block;
+                width:100%;
+                height:100%;
+                line-height:30px;
+                text-align:center;
+                color:#fff;
+                }
+
+                &:after{
+                position: absolute;
+                left:0;
+                top:0;
+                display:block;
+                content: "";
+                width:100%;
+                height:100%;
+                border: 1px rgba(255,255,255,.2) solid;
+                border-bottom: none;
+                transform: scale(1.1,1.3) perspective(.7em) rotateX(2.2deg);
+                transform-origin: bottom left;
+                background: rgba(0,0,0,.5);
+                border-radius:1px 2px 0 0;
+                box-sizing:border-box;
+                }
+            }
+
+      }
+      .search-input{
+        width: 550px;
+        margin: 0 auto;
+        width: 550px;
+        height: 46px;
+        background-color: #fff;
+        border-radius: 0 5px 5px 5px;
+        //更改光标的透明度
+        border: 1px rgba(255,255,255,.2) solid;
+
+        input{
+          width: 100%;
+          height: 36px;
+          outline: none;
+          border: 0;
+          padding-left: 10px;
+
+        }
+        i{
+          padding: 10px;
+          font-size: 24px;
+          font-weight: 700;
+          cursor :pointer;
+        }
+      }
+
     }
 }
 </style>
