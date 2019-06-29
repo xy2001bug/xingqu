@@ -30,5 +30,15 @@ export const actions = {
             commit("setUserInfo", data);
             return data;
         })
+    },
+    register({commit},data){
+        return this.$axios({
+            url:"/accounts/register",
+            method:"POST",
+            data:data
+        }).then(res=>{
+            commit("setUserInfo",res.data);
+            return data;
+        })
     }
 };  

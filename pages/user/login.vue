@@ -1,58 +1,84 @@
 <template>
     <div class="container">
-       <el-row type="flex" justify="center" align="middle" class="main" >
-           <div class="from-wrapper">
-                <el-row type="flex" justify="center" class="tabs" >
-                    <span v-for="(item,index) in [`登录`,`注册`]" :key="index" 
-                    :class="{active: currentTab==index}" 
-                    @click="headleChangeTab(index)">
+
+        <!-- 主要内容 -->
+        <el-row 
+        type="flex" 
+        justify="center" 
+        align="middle" 
+        class="main">
+
+            <div class="form-wrapper">
+                <!-- 表单头部tab -->
+                <el-row type="flex" justify="center" class="tabs">
+                    <span 
+                    :class="{active: currentTab === index}" 
+                    v-for="(item, index) in [`登录`, `注册`]"
+                    :key="index" 
+                    @click="handleChangeTab(index)">
                         {{item}}
                     </span>
                 </el-row>
-                <Login v-if="currentTab == 0" />
-           </div>
 
+                <!-- 登录功能组件 -->
+                <LoginForm v-if="currentTab == 0"/>
 
-       </el-row>
+                <!-- 注册功能组件 -->
+                <RegisterForm v-if="currentTab == 1"/>
+            </div>
+        </el-row>
     </div>
 </template>
 
 <script>
-import Login from "@/components/user/login.vue"
+import LoginForm from "@/components/user/login.vue";
+import RegisterForm from "@/components/user/registerForm.vue";
+
 export default {
-    components:{
-        Login,
-    },
     data(){
-        return{
-           currentTab:0
+        return {
+            currentTab: 0
         }
     },
-    methods:{
-        headleChangeTab(index){
+
+    // 注册组件
+    components: {
+        LoginForm,
+        RegisterForm
+    },
+
+    methods: {
+        // tab切换的事件
+        handleChangeTab(index){
             this.currentTab = index;
-
-        }
+        },
     }
-
 }
 </script>
-<style lang="less" scoped>
+
+<style scoped lang="less">
 .container{
     background:url(http://157.122.54.189:9095/assets/images/th03.jfif) center 0;
-    height: 720px;
-    min-width: 1000px;
-        .main{
-            top: 40%;
-            left: 50%;
-            margin-left: -200px;
-            background-color: #eee;
-            width: 400px;
-            .from-wrapper{
-                .tabs{
-                    span{
+    height: 700px;
+    min-width:1000px;
+
+    .main{
+        width:1000px;
+        height: 100%;
+        margin:0 auto;
+        position: relative;
+        
+        .form-wrapper{
+            width:400px;
+            margin:0 auto;
+            background:#fff;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+            overflow:hidden;
+            
+            .tabs{
+                span{
                     display: block;
-                    width:200px;
+                    width:50%;
                     height: 50px;
                     box-sizing: border-box;
                     border-top:2px #eee solid;
@@ -61,16 +87,16 @@ export default {
                     text-align: center;
                     cursor: pointer;
                     color:#666;
-                        &.active{   
-                            background-color:bisque;
-                            border-top: 2px yellowgreen solid;
-                        }
+
+                    &.active{
+                        color:orange;
+                        border-top-color: orange;
+                        background:#fff;
+                        font-weight: bold;
                     }
                 }
             }
         }
-
-    
-
+    }
 }
 </style>

@@ -47,7 +47,7 @@ export default {
             if (valid) {
                 this.$store.dispatch("user/login",this.ruleform)
                 .then(res=>{
-                    console.log(res);
+                    
                     this.$message({
                     
                         message: "登录成功，正在跳转",
