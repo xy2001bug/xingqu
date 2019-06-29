@@ -8,7 +8,14 @@ export const state = ()=>({
 export const mutations = {
     setUserInfo (state,data){
         state.userInfo = data
+    },
+    clearUserInfo(state){
+        if(process.browser){
+            localStorage.removeItem("userInfo")
+        }
+        state.userInfo = {}
     }
+
 };
 export const actions = {
     // 登录'
