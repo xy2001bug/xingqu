@@ -27,7 +27,7 @@ export const actions = {
         }).then(res => {
             const data = res.data;
             // 保存到state
-            commit("setUserInfo", data);
+             commit("setUserInfo", data);
             return data;
         })
     },
