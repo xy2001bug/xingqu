@@ -174,7 +174,6 @@ export default {
       //使用规则验证：
        Object.keys(rules).forEach(v => {
               if(!valid) return;
-                console.log(v);
                 // 这里是不能使用.v的，因为v在这里是一个变量
               if(!rules[v].value){
                   this.$message.warning(rules[v].message);
