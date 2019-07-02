@@ -45,6 +45,7 @@
             <!-- 侧边栏 -->
             <div class="aside">
                 <!-- 侧边栏组件 -->
+                <FlightsAside />
             </div>
         </el-row>
     </section>
@@ -55,11 +56,13 @@ import monent from  "moment"
 import FligthsHead from "@/components/air/fightsListHead.vue"
 import FightsItem from "@/components/air/flightsItem.vue"
 import FlightsFliters from "@/components/air/flightsFliters.vue"
+import FlightsAside from "@/components/air/flightsAside.vue"
 export default {
     components:{
         FligthsHead,
         FightsItem,
-        FlightsFliters
+        FlightsFliters,
+        FlightsAside
     },
      data(){
         return {
@@ -122,6 +125,12 @@ export default {
 
     mounted(){
         this.getData();
+    },
+     watch:{
+        //监听url的变化。根据选择的路径进行跳转
+        $route(){
+            this.getData()
+        }
     }
 }
 </script>

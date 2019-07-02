@@ -181,11 +181,18 @@ export default {
               }
           })
       if(!valid) return;
+
+      //把搜索记录放到本地存储中
+      const airs = JSON.parse(localStorage.getItem('airs') || `[]`);
+      airs.unshift(this.form);
+      localStorage.setItem("airs",JSON.stringify(airs))
+
       //验证完毕，发送数据请求(直接push)从url中发送
       this.$router.push({
         path:"/air/flights",
         query:this.form
       })
+
     },
   },
   mounted() {}

@@ -42,7 +42,8 @@
                         <el-col :span="3" class="choose-button">
                             <el-button 
                             type="warning" 
-                            size="mini">
+                            size="mini"
+                            @click="headleToOrder">
                             选定
                             </el-button>
                             <p>剩余：{{item.discount}}</p>
@@ -71,11 +72,14 @@ export default {
         }
     },
     mounted(){
-        // console.log(this.props.data);
+        console.log(this.data);
     },
     methods:{
         headleShow(){
             this.isShow = !this.isShow
+        },
+        headleToOrder(){
+            this.$router.push(`/air/order?id=${this.data.id}&seat_xid=${this.data.seat_infos.seat_xid}c3eef25b42dcd679081e5be120e8d53`)
         }
     },
     //计算过程时间
