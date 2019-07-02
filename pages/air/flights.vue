@@ -34,7 +34,7 @@
                             :page-sizes="[5, 10, 15, 20]"
                             :page-size="pageSize"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+                            :total="flightsData.total">
                             </el-pagination>
                     </el-row>
                 </div>
@@ -74,20 +74,27 @@ export default {
                 params: this.$route.query // 来自URL的5个参数
             }).then(res => { 
                 this.flightsData = res.data;
-                this.dataList = this.flightsData.flights;
+                // this.dataList = this.flightsData.flights;
+                this.showList();
+                console.log(this.flightsData);
             });
         },
         //设计一个函数。用来显示页面上的数据
         showList(){
-            const startIndex = (this.pageIndex - 1) * pageSize;
+            const startIndex = (this.pageIndex - 1) * this.pageSize;
             const endIndex = startIndex + this.pageSize
-            this.pageList = this.flightsData.flights.slice(startIndex,endIndex)
+            this.dataList = this.flightsData.flights.slice(startIndex,endIndex)   
         },
+        //切换条数
         handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        this.pageSize = val;
+        this.pageIndex = 1;
+        this.showList()
       },
+        //切换页
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        this.pageIndex = val;
+        this.showList();
       }
     },
 

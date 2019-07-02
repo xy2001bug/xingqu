@@ -6,10 +6,10 @@
         </el-col>
         <el-col :span="14">
             <el-row type="flex" justify="space-between">
-                <el-col :span="6">
+                <el-col :span="12">
                     起飞时间
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="12">
                     到达时间
                 </el-col>
             </el-row>
