@@ -43,7 +43,7 @@
                             <el-button 
                             type="warning" 
                             size="mini"
-                            @click="headleToOrder">
+                            @click="handleToOrder(item)">
                             选定
                             </el-button>
                             <p>剩余：{{item.discount}}</p>
@@ -78,8 +78,16 @@ export default {
         headleShow(){
             this.isShow = !this.isShow
         },
-        headleToOrder(){
-            this.$router.push(`/air/order?id=${this.data.id}&seat_xid=${this.data.seat_infos.seat_xid}c3eef25b42dcd679081e5be120e8d53`)
+        //跳转到订单页
+      handleToOrder(item){
+            this.$router.push({
+                // 跳转的页面路径
+                path: "/air/order",
+                query: {
+                    id: this.data.id,
+                    seat_xid: item.seat_xid
+                }
+            })
         }
     },
     //计算过程时间

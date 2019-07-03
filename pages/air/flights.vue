@@ -15,7 +15,6 @@
                    <FligthsHead/>
                 </div>
 
-
                 <!-- 航班信息 -->
                 <div>
                     <FightsItem 
