@@ -88,7 +88,7 @@ export default {
   computed: {
     allprice() {
       let price = 0;
-        price += this.data.seat_infos.par_price;//机票 
+        price += this.data.seat_infos.org_settle_price;//机票 
         price += this.data.airport_tax_audlet;//燃油费
         price += this.insurances.length * 30 ;//保险
         price *= this.users.length;
@@ -183,6 +183,34 @@ export default {
         message: "正在生成订单！请稍等",
         type: "success"
       });
+      //数据获取完成后，向后台提交订单
+    this.$axios({
+        url:"/airorders",
+        method:"POST",
+        data:orderData,
+        //需要验证登录
+        headers:{
+            Authorization:`Bearer ${this.$store.state.user.userInfo.token || "NO KOTEN"}`
+        }
+    }).then(res=>{
+        // console.log(res);
+        const {id} = res.data.data
+        this.$router.push({
+            path:"/air/pay",
+            query:{
+                id
+            }
+        })
+
+    }).catch(err => {
+        const {message} = err.response.data;
+        // 警告提示
+        this.$confirm(message, '提示', {
+            confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'warning'
+        })
+    })
     }
   }
 };
