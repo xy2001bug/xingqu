@@ -34,7 +34,11 @@
                     </div>
                     <span>选择</span>
                 </el-row>
-            </nuxt-link>
+               
+            </nuxt-link> 
+            <el-button type="warning" @click="handleCleanAll" style="margin-top: 10px">
+                    清空历史记录
+                </el-button>
         </div>
     </div>
 </template>
@@ -48,7 +52,15 @@ export default {
     },
     mounted(){
         this.history = JSON.parse(localStorage.getItem("airs") || `[]`)
+        
     },
+    methods:{
+        handleCleanAll(){
+            localStorage.removeItem("airs")
+            this.history = JSON.parse(localStorage.getItem("air",[]))
+        },
+         
+    }
    
 }
 </script>
