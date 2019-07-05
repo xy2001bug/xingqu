@@ -36,7 +36,7 @@
             </el-row>
 
             <div class="licence">
-                京ICP备08001421号 京公网安备110108007702 Copyright © 2016-2019 博学谷 All Rights Reserved
+                唐ICP备08001421号 大唐网安备110108007702 Copyright © 2014-2018 唐简 All Rights Reserved
             </div>
         </div>
     </div>
@@ -78,14 +78,15 @@ export default {
     }
 
     .scan{
-        text-align: center;
-
-        img{
-            width:140px;
-            height:140px;;
-        }
-
         font-size:12px;
+        text-align: center;
+        img{
+            width:100px;
+            height:100px;
+            border:3px solid #fff;
+            margin-top:12px;
+            margin-bottom:5px;
+        }
     }
 
     .licence{

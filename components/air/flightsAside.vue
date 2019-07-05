@@ -36,9 +36,12 @@
                 </el-row>
                
             </nuxt-link> 
-            <el-button type="warning" @click="handleCleanAll" style="margin-top: 10px">
-                    清空历史记录
-                </el-button>
+            <el-button 
+            size="small" 
+            style="margin-top:10px"
+            @click="handleCleanAll">
+                清空历史查询
+            </el-button>
         </div>
     </div>
 </template>
