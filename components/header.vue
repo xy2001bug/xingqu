@@ -5,7 +5,7 @@
             <!-- logo -->
             <div class="logo">
                 <nuxt-link to="/">
-                    <img src="http://157.122.54.189:9093/images/logo.jpg" alt="">
+                    <img src="../static/logo.jpg" alt="" style="width:156px;height:43px">
                 </nuxt-link>
             </div>
 

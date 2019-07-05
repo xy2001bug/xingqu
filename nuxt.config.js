@@ -4,7 +4,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: '世界上最好的旅游网站 - 闲云旅游',
+    title: '行趣 - 打造世界上最好的旅游网站',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
