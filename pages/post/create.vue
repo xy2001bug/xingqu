@@ -9,7 +9,7 @@
 
             <!-- 侧边栏草稿箱 -->
             <div class="aside">
-               <el-button plain>草稿箱(0)</el-button>
+                <PostAside />
             </div>
         </el-row>
     </div>
@@ -17,11 +17,17 @@
 
 <script>
 import PostEdit from "@/components/post/postEdit.vue"
+import PostAside from "@/components/post/postAside.vue"
 
 export default {
     components:{
-        PostEdit
+        PostEdit,
+        PostAside
     },
+
+    methods: {
+        
+    }
 }
 </script>
 
@@ -37,4 +43,5 @@ export default {
         height: fit-content;
         text-align: center;
     }
+
 </style>

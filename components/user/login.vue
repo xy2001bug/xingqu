@@ -11,7 +11,10 @@
                 <el-input placeholder="密码" type="password" v-model="ruleform.password"></el-input>
             </el-form-item>
             <el-form-item class="foregetpaw">忘记密码？</el-form-item>
-            <el-button type="primary " class="submint" @click="handleLoginSubmit" >
+            <el-button 
+            type="primary " 
+            class="submint" 
+            @click="handleLoginSubmit" >
                 登录
             </el-button>
         </el-form>
