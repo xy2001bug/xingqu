@@ -4,7 +4,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: '世界上最好的旅游网站 - 闲云旅游',
+    title: '行趣 - 带上好奇心去旅行',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -49,8 +49,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    // baseURL: "http://157.122.54.189:9095" // 新增备用地址
-    baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径 		  
+    baseURL: "http://157.122.54.189:9095" // 新增备用地址
+    // baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径 		  
   },
   /*
   ** Build configuration

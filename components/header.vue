@@ -5,7 +5,7 @@
             <!-- logo -->
             <div class="logo">
                 <nuxt-link to="/">
-                    <img src="http://157.122.54.189:9093/images/logo.jpg" alt="">
+                    <img src="../static/logo.png" alt="" style="width:156px;height:50px">
                 </nuxt-link>
             </div>
 
@@ -13,7 +13,7 @@
             <el-row type="flex" class="navs">
                 <nuxt-link to="/">首页</nuxt-link>
                 <nuxt-link to="/post">旅游攻略</nuxt-link>
-                <nuxt-link to="/hotel">酒店</nuxt-link>
+                <nuxt-link to="/hotels">酒店</nuxt-link>
                 <nuxt-link to="/air">国内机票</nuxt-link>  
             </el-row>
 
@@ -80,7 +80,7 @@ export default {
 
         .logo{
             width:156px;
-            padding-top:8px;
+            padding-top:4px;
 
             img{
                 display: block;

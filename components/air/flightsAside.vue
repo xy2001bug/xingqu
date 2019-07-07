@@ -60,7 +60,7 @@ export default {
     methods:{
         handleCleanAll(){
             localStorage.removeItem("airs")
-            this.history = JSON.parse(localStorage.getItem("air",[]))
+            this.history = JSON.parse(localStorage.getItem("air" || []))
         },
          
     }
@@ -112,7 +112,7 @@ export default {
         border-bottom: 1px #eee solid;
 
         &:last-child{
-            border:none;
+            // border:none;
         }
 
         .to-from{

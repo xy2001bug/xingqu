@@ -58,9 +58,12 @@ export default {
 
 <style scoped lang="less">
 .container{
-    background:url(http://157.122.54.189:9095/assets/images/th03.jfif) center 0;
+    // background:url(http://157.122.54.189:9095/assets/images/th03.jfif) center 0;
+    background:url(../../static/wallhaven-n62r5q.jpg);
+    background-size:100% 100%;
     height: 700px;
     min-width:1000px;
+
 
     .main{
         width:1000px;
