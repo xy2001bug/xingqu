@@ -4,7 +4,7 @@
         <h2>夏日出行精选</h2>
         <el-row>
         <el-col :span="8">
-            <a href="javascript:;">
+            <a href="/post">
                 <div class="grid-content bg-purple">
                     <img src="../../static/natsu01.jpg" alt="">
                     <div class="one">全球美食城市</div>
@@ -14,7 +14,7 @@
             </a>
         </el-col>
         <el-col :span="8">
-            <a href="javascript:;">
+            <a href="/post">
                 <div class="grid-content bg-purple">
                     <img src="../../static/natsu02.jpg" alt="">
                     <div class="one">日本夏日祭</div>
@@ -24,7 +24,7 @@
             </a>
         </el-col>
         <el-col :span="8">
-            <a href="javascript:;">
+            <a href="/post">
                 <div class="grid-content bg-purple">
                     <img src="../../static/natsu03.jpg" alt="">
                     <div class="one">东非自然之旅</div>
@@ -50,6 +50,7 @@ export default {
         width: 1000px;
         margin:0 auto;
         h2{
+            color:orangered;
             margin-top:25px;
         }
         .el-row {

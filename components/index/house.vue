@@ -4,7 +4,7 @@
         <h2>精选房源</h2>
         <el-row>
         <el-col :span="6">
-            <a href="javascript:;">
+            <a href="/hotels">
                 <div class="grid-content bg-purple">
                     <img src="../../static/house01.jpeg" alt="">
                     <div class="two">上海</div>
@@ -13,7 +13,7 @@
             </a>
         </el-col>
         <el-col :span="6">
-            <a href="javascript:;">
+            <a href="/hotels">
                 <div class="grid-content bg-purple">
                     <img src="../../static/house02.jpeg" alt="">
                     <div class="two">东京</div>
@@ -22,7 +22,7 @@
             </a>
         </el-col>
         <el-col :span="6">
-            <a href="javascript:;">
+            <a href="/hotels">
                 <div class="grid-content bg-purple">
                     <img src="../../static/house03.jpeg" alt="">
                     <div class="two">大阪</div>
@@ -31,7 +31,7 @@
             </a>
         </el-col>
         <el-col :span="6">
-            <a href="javascript:;">
+            <a href="/hotels">
                 <div class="grid-content bg-purple">
                     <img src="../../static/house04.jpeg" alt="">
                     <div class="two">台中</div>
@@ -57,6 +57,7 @@ export default {
         width: 1000px;
         margin:0 auto;
         h2{
+            color:cyan;
             margin-top:25px;
         }
         .el-row {

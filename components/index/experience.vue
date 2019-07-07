@@ -4,7 +4,7 @@
         <h2>高分体验</h2>
         <el-row>
         <el-col :span="4">
-            <a href="javascript:;">
+            <a href="/air">
                 <div class="grid-content bg-purple">
                     <img src="../../static/e1.jpg" alt="">
                     <div class="two">泰国传统具纹身</div>
@@ -14,7 +14,7 @@
             </a>
         </el-col>
         <el-col :span="4">
-            <a href="javascript:;">
+            <a href="/air">
                 <div class="grid-content bg-purple">
                     <img src="../../static/e2.jpg" alt="">
                     <div class="two">隐秘泳池 + 野外海滩</div>
@@ -24,7 +24,7 @@
             </a>
         </el-col>
         <el-col :span="4">
-            <a href="javascript:;">
+            <a href="/air">
                 <div class="grid-content bg-purple">
                     <img src="../../static/e3.jpg" alt="">
                     <div class="two">辛特拉难忘一日！</div>
@@ -34,7 +34,7 @@
             </a>
         </el-col>
         <el-col :span="4">
-            <a href="javascript:;">
+            <a href="/air">
                 <div class="grid-content bg-purple">
                     <img src="../../static/e4.jpg" alt="">
                     <div class="two">双人日落温泉体验</div>
@@ -44,7 +44,7 @@
             </a>
         </el-col>
         <el-col :span="4">
-            <a href="javascript:;">
+            <a href="/air">
                 <div class="grid-content bg-purple">
                     <img src="../../static/e5.jpg" alt="">
                     <div class="two">海岸线探险徒步行</div>
@@ -54,7 +54,7 @@
             </a>
         </el-col>
         <el-col :span="4">
-            <a href="javascript:;">
+            <a href="/air">
                 <div class="grid-content bg-purple">
                     <img src="../../static/e6.jpg" alt="">
                     <div class="two">私人东京摄影师</div>
@@ -66,7 +66,7 @@
         
         </el-row>
     </div>
-    <div class="more"><a href="javascript:;">更多体验</a></div>
+    <div class="more"><a href="/post">更多体验</a></div>
 </div>
 </template>
 
@@ -82,6 +82,7 @@ export default {
         width: 1000px;
         margin:0 auto;
         h2{
+            color:#00bed4;
             margin-top:25px;
         }
         .el-row {
@@ -93,7 +94,7 @@ export default {
                 height: 100%;
             }
             .one{
-                color:#999;
+                color:orange;
                 font-size:12px;
                 margin-top:3px;
             }

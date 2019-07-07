@@ -5,7 +5,7 @@
             <!-- logo -->
             <div class="logo">
                 <nuxt-link to="/">
-                    <img src="../static/logo.jpg" alt="" style="width:156px;height:43px">
+                    <img src="../static/logo.png" alt="" style="width:156px;height:50px">
                 </nuxt-link>
             </div>
 
@@ -80,7 +80,7 @@ export default {
 
         .logo{
             width:156px;
-            padding-top:8px;
+            padding-top:4px;
 
             img{
                 display: block;
