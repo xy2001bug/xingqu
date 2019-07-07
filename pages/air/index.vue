@@ -10,8 +10,9 @@
         <SearchForm/>
 
         <!-- banner广告 -->
-        <div class="sale-banner">
-            <img src="http://157.122.54.189:9093/images/pic_sale.jpeg">
+        <div class="sale-banner" style="width:620px;height:350px">
+            <!-- <img src="http://157.122.54.189:9093/images/pic_sale.jpeg"> -->
+            <FilghtsCarousel />
         </div>
     </el-row>
     <!-- 广告 -->
@@ -55,6 +56,8 @@
 
 <script>
 import SearchForm from "@/components/air/searchForm";
+import FilghtsCarousel from "@/components/air/filghtsCarousel";
+
 export default {
   data(){
         return {
@@ -69,7 +72,8 @@ export default {
       })
     },
     components: {
-        SearchForm
+        SearchForm,
+        FilghtsCarousel
     },
 }
 </script>

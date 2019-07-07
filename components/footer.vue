@@ -36,7 +36,7 @@
             </el-row>
 
             <div class="licence">
-                唐ICP备08001421号 大唐网安备110108007702 Copyright © 2014-2018 唐简 All Rights Reserved
+                唐ICP备08001421号 大唐网安备110108007702 Copyright © 2014-2018 无名 All Rights Reserved
             </div>
         </div>
     </div>

@@ -33,12 +33,31 @@
             <i class="el-icon-search" ></i>
           </el-row>
         </div>
+        <!-- 夏日出行精选 -->
+        <Summer />
+        <!-- 经典旅行城市 -->
+        <Classic />
+        <!-- 精选房源 -->
+        <House />
+        <!-- 高分体验 -->
+        <Experience />
 
     </div>
   
 </template>
 <script>
+import Summer from "@/components/index/summer.vue"
+import Classic from "@/components/index/classic.vue"
+import House from "@/components/index/house.vue"
+import Experience from "@/components/index/experience.vue"
+
 export default {
+  components:{
+    Summer,
+    Classic,
+    House,
+    Experience
+  },
   data(){
     return{
       banners:[],
@@ -99,7 +118,8 @@ export default {
     .banner-content{
       z-index: 9;
       position: absolute;
-      top: 45%;
+      // tab栏相对整个页面在纵向上的位置
+      top: 14%;
       left: 50%;
       width: 1000px;
       margin-left: -500px;
