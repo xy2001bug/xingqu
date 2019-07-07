@@ -1,4 +1,5 @@
 <template>
+
     <el-row class="PostAside_box">
         <!-- 搜索框大盒子 -->
         <div class="PostBox">
@@ -110,6 +111,8 @@
             </el-pagination>
         </div>
     </el-row>
+    
+
 </template>
 
 <script>
@@ -275,10 +278,23 @@ export default {
       .AisdeBoxLike {
         color: orange;
       }
-      .AisdeBoxAddress {
-      }
+      // .AisdeBoxAddress {
+      // }
     }
   }
   }
 }
-</style>
+// </script>
+
+// <style>
+// .el-dropdown {
+//     vertical-align: top;
+// }
+// .el-dropdown + .el-dropdown {
+//     margin-left: 15px;
+// }
+// .el-icon-arrow-down {
+//     font-size: 12px;
+// >>>>>>> 3ae2dba6253cee84286024121287100913d26461
+// }
+// </style>

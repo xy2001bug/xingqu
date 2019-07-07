@@ -7,7 +7,7 @@
                 <postMain/>
             </div>
             <div class="IndexRight">
-                <PostAside/>
+                <PostAttack/>
             </div>
         </div>
     </el-row>
@@ -16,12 +16,12 @@
 
 <script>
 // 引入部分组件
-import PostAside from '@/components/post/postAside'
+import PostAttack from '@/components/post/postAttack'
 import postMain from '@/components/post/postMain'
 export default {
     // 注册组件
     components:{
-        PostAside,
+        PostAttack,
         postMain
     }
 }
