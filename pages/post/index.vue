@@ -1,6 +1,6 @@
 <template>
     <div>
-        旅游攻略首页
+        旅游攻略页首页
     </div>
 </template>
 
