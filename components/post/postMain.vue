@@ -51,7 +51,7 @@
                 推荐城市
             </div>
             <a class="PostPicture" href="#">
-                <img src="../../static/1562380821(1).jpg"/>
+                <img src="../../static/wallhaven-0pj6w3.jpg"/>
             </a>
         </div>
     </div> 
@@ -131,7 +131,7 @@ export default {
     position: absolute;
     left: 260px;
     top: 0;
-    border: 1px solid #ddd;
+    // border: 1px solid #ddd;
     .PostToponymSpan {
       ul {
         li {

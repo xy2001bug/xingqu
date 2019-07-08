@@ -11,7 +11,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="less">
 
   .el-carousel__item:nth-child(1) {
     background:url(../../static/wallhaven-n62r5q.jpg);

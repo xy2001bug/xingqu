@@ -1,140 +1,137 @@
 <template>
-<!-- 写游记 -->
-    <div class="container">
-        <el-row type="flex" justify="space-between">
-            <!-- 游记内容 -->
-            <div class="main">
-                <el-form ref="form" :model="form" label-width="80px">
-                    <h2>发表新攻略</h2>
-                    <span class="slogan">分享你的个人游记，让更多人看到哦！</span>
-                    <el-input 
-                    v-model="form.title"
-                    class="postTitle"
-                    placeholder=" 请输入标题"></el-input>
-                    
-                    <!-- 富文本框 -->
-                    <div class="richTextBox">
-                    <div id="app">
-                        <VueEditor :config="config" class="VueEditor"/>
-                    </div>
-                    </div>
+  <div class="create">
+    <el-form class="create-left" :rules="rules" ref="form" :model="form">
+      <div class="create-title">
+        <h2>发表新攻略</h2>
+        <p class="create-desc">分享你的个人游记，让更多人看到哦！</p>
+      </div>
 
-                    <el-form-item label="选择城市" class="choose_city">
-                        <!-- fetch-suggestions 返回输入建议的方法 -->
-                        <el-autocomplete
-                            :fetch-suggestions="queryDestSearch"
-                            placeholder="请搜索游玩城市"
-                            @select="handleDestSelect"
-                            class="el-autocomplete"
-                            v-model="form.destCity"
-                            >
-                        </el-autocomplete>
-                    </el-form-item>
-                    <el-button 
-                    type="primary" 
-                    @click="handleSubmit">
-                    发布
-                    </el-button>
-                    <el-button @click="handleDraft">保存到草稿箱</el-button>
-                    
-                </el-form>
-            </div>
+      <el-form-item class="el-input">
+        <el-input v-model="form.title" placeholder="请输入标题"></el-input>
+      </el-form-item>
 
-            <!-- 侧边栏草稿箱 -->
-            <div class="aside">
-                <el-form>
-                    <el-dropdown>
-                        <el-button plain>
-                            草稿箱(0)
-                        </el-button>
-                    </el-dropdown>
-                </el-form>
-            </div>
-        </el-row>
+      <section class="contain-editor">
+        <div id="app" class="richTextBox">
+          <VueEditor 
+          :config="config"
+          :content="content" 
+          class="VueEditor"/>
+        </div>
+      </section>
+
+      <el-form-item label="选择城市" class="choose_city">
+        <el-autocomplete
+          :fetch-suggestions="queryDestSearch"
+          placeholder="请搜索游玩城市"
+          @select="handleDestSelect"
+          class="el-autocomplete"
+          v-model="form.city"
+          >
+        </el-autocomplete>
+      </el-form-item>
+
+      <el-row class="submit-button">
+        <el-button type="primary" @click="handleSubmit">发布</el-button>
+        <el-button @click="handleDraft" class="caogao">保存到草稿箱</el-button>
+        
+      </el-row>
+    </el-form>
+    <div class="create-right">
+      <el-button plain class="create-right-title">草稿箱({{form.id}})</el-button>
+      <el-row v-for="(item, index) in caogao" :key="index">
+        <span @click="handleChange(index)"  :v-model="index" class="caogaotitle">{{item.title}} <i class="el-icon-edit"></i></span>       
+      </el-row>
     </div>
+  </div>
 </template>
 
 <script>
-// 富文本框样式
 import "quill/dist/quill.snow.css"
 let VueEditor;
 
 if (process.browser) {
-    VueEditor = require('vue-word-editor').default
+  VueEditor = require('vue-word-editor').default
 }
-
 export default {
-    name: 'app',
-    components: {
-    VueEditor
-  },
-
+  name: 'app',
+  components: { VueEditor },
   data() {
     return {
+      caogao: [],
+      article: [],
       form: {
-          title:"",
-          content:"",
-          destCity:"", // 游玩城市
+        title: "",
+        city: "",
+        id: "",
+        index:0
       },
-
-      // 富文本相关
+      rules: {
+        city: [{ required: true, message: "请输入城市名", trigger: "blur" }],
+        title: [{ required: true, message: "请输入标题", trigger: "blur" }]
+      },
+      content: "",
+        // 富文本相关
       config: {
         modules: { 
-            // 工具栏
-            toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-            ['image', 'video'],
+          // 工具栏
+          toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote', 'code-block'],
+          ['image', 'video'],
 
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
-            ]
+          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+          [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+          [{ 'direction': 'rtl' }],                         // text direction
+          ]
         },
         // 主题
         theme: 'snow',
         uploadImage: {
-            url: "http://localhost:1337/upload",
-            name: "files",
-            uploadBefore(file){
-            return true
-            },
-            uploadProgress(res){
+          url: "http://localhost:1337/upload",
+          name: "files",
+          uploadBefore(file){
+          return true
+          },
+          uploadProgress(res){
 
-            },
-            uploadSuccess(res, insert){
-            insert("http://localhost:1337" + res.data[0].url)
-            },
-            uploadError(){},
-            showProgress: false
+          },
+          uploadSuccess(res, insert){
+          insert("http://localhost:1337" + res.data[0].url)
+          },
+          uploadError(){},
+          showProgress: false
         },
 
         uploadVideo: {
-            //url: "http://157.122.54.189:9095/upload",
-            url: "http://localhost:1337/upload",
-            name: "files",
-            uploadBefore(file){
-            return true
-            },
-            uploadProgress(res){
+          //url: "http://157.122.54.189:9095/upload",
+          url: "http://localhost:1337/upload",
+          name: "files",
+          uploadBefore(file){
+          return true
+          },
+          uploadProgress(res){
 
-            },
-            uploadSuccess(res, insert){
-            insert("http://localhost:1337" + res.data[0].url)
-            },
-            uploadError(){},
+          },
+          uploadSuccess(res, insert){
+          insert("http://localhost:1337" + res.data[0].url)
+          },
+          uploadError(){},
         }
         }
     }
+    
   },
-  
-  // 选择游玩城市相关代码 待修改
-  methods:{
 
-    // 游玩城市输入框获得焦点时触发
-    // value 是选中的值，cb是回调函数，接收要展示的列表
+  methods: {
+    handleChange(index) {
+      const localPost = JSON.parse(localStorage.getItem("post-caogao"));
+      this.form.title = localPost[index].title;
+      this.content = localPost[index].content;
+      this.form.city = localPost[index].city;
+    },
+    // 选择城市
     queryDestSearch(value, cb) {
       if(!value){
         return;
@@ -155,105 +152,210 @@ export default {
     },
     // 选择游玩城市下拉选择时触发
     handleDestSelect(item) {
-      this.form.destCity = item.value
+      this.form.city = item.value
     },
-
-    // 发布游记
     handleSubmit() {
-      //自定义一套验证规则
-      const rules = {
-        title:{
-          value:this.form.title,
-          message:"请输入标题"
-        },
-        content:{
-          value:this.form.content,
-          message:"请输入游记内容"
-        },
-        dest:{
-          value:this.form.destCity,
-          message:"请输入游玩城市"
-        },
+      const token = this.$store.state.user.userInfo.token;
+      if (!token) {
+        setTimeout(()=>{
+          this.$router.push("../user/login")
+        },3500)
+        this.$message.success("登录后才可以发布哟~为您跳转中...");
+        return;
       }
-      //用于验证开关
-      let valid = true;
-      //使用规则验证：
-      Object.keys(rules).forEach(v => {
-        if(!valid) return;
-          // 这里是不能使用.v的，因为v在这里是一个变量
-        if(!rules[v].value){
-            this.$message.warning(rules[v].message);
-            valid = false;
+      const rules = {
+        title: {
+          value: this.form.title,
+          message: "请输入标题"
+        },
+        // content:{
+        //   value: this.form.content,
+        //   message: "请输入内容"
+        // },
+        city: {
+          value: this.form.city,
+          message: "请输入游玩城市"
         }
-      })
-      if(!valid) return;
-
-      this.$message({
-        message: "正在生成游记，请稍等...",
-        type: "success"
+      };
+      let valid = true;
+      Object.keys(rules).forEach(v => {
+        if (!valid) return;
+        if (!rules[v].value) {
+          this.$message.warning(rules[v].message);
+          valid = false;
+        }
       });
+      if (rules.title.value&& rules.city.value) {
+        this.article.unshift({
+          content: this.content,
+          city: this.form.city,
+          title: this.form.title
+        });
+        localStorage.setItem("posts", JSON.stringify(this.article));
+      }
+      const data = {
+        content: this.content,
+        city: this.form.city,
+        title: this.form.title,
+        destCode: this.destCode
+      };
+      const {
+        user: { userInfo }
+      } = this.$store.state;
+      if (rules.title.value&& rules.city.value) {
+      this.$axios({
+        url: "posts",
+        method: "POST",
+        data,
+        headers: {
+          Authorization: `Bearer ${userInfo.token || "NO TOKEN"}`
+        }
+      }).then(res => {
+        const { status, message } = res.data;
+        if (status == 0) {
+          this.$message.success(message);
+        }
+        this.form.city = "";
+        this.form.title = "";
+        this.content = "";
+      });
+      }
+      this.caogao.splice(this.index,1)
+      localStorage.removeItem("post-caogao")
+      this.form.id = this.caogao.length;
     },
-
-    // 保存到草稿箱
-    handleDraft(){
-      this.$message({
-        message: "正在保存游记，请稍等...",
-        type: "success"
+    // draft
+    handleDraft() {
+      const token = this.$store.state.user.userInfo.token;
+      console.log(token);
+      if (!token) {
+        setTimeout(()=>{
+          this.$router.push("../user/login")
+        },3500)
+        this.$message.success("登录后才可以保存哟~为您跳转中...");
+        return;
+      }
+      const rules = {
+        title: {
+          value: this.form.title,
+          message: "请输入标题"
+        }
+      };
+      let valid = true;
+      Object.keys(rules).forEach(v => {
+        if (!valid) return;
+        if (!rules[v].value) {
+          this.$message.warning(rules[v].message);
+          valid = false;
+        }
       });
+      if (!valid) {
+        return;
+      }
+      if (rules.title.value) {
+        this.caogao.unshift({
+          content: this.content,
+          city: this.form.city,
+          title: this.form.title
+        });
+        localStorage.setItem("post-caogao", JSON.stringify(this.caogao));
+        this.form.id = this.caogao.length;
+      }
     }
-
   },
-
-  mounted() { 
-
+  mounted() {
+    this.caogao = JSON.parse(localStorage.getItem("post-caogao") || `[]`);
+    this.form.id = this.caogao.length;
   }
-
-}
+};
 </script>
 
-<style lang="less" scoped>
-    .container{
-        width:1000px;
-        margin:20px auto;
-    }
-    
-    /*aside*/
-    .aside{
-        width: 200px;
-        height: fit-content;
-        text-align: center;
-    }
-
-    // 写游记部分
-    .main{
-        width: 800px;
-    }
-    h2{
-        font-size: 22px;
+<style scopde lang="less">
+.create {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  .create-left {
+    width: 750px;
+    .create-title {
+      h2 {
         font-weight: 400;
+        font-size: 22px;
         margin-bottom: 10px;
-    }
-
-    .slogan{
-        color:#999;
+      }
+      .create-desc {
         font-size: 12px;
-    }
-    // 游记标题输入框
-    .postTitle{
-        width: 100%;
-        margin-top: 10px;
+        color: #999;
         margin-bottom: 10px;
+      }
     }
-    // 选择城市
-    .choose_city{
-        margin-top: 10px;
+    .el-input {
+      background-color: #fff;
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: #606266;
+      display: inline-block;
+      font-size: inherit;
+      height: 40px;
+      line-height: 40px;
+      width: 100%;
+      // margin-bottom: 22px;
     }
-    // 富文本框高度
+    .contain-editor {
+      // margin-top: 20px;
+      .quill-editor {
+        min-height: 200px;
+        height: 450px;
+        max-height: 600px;
+        overflow-y: auto;
+      }
+    }
+    .choose_city {
+      margin-bottom:15px;
+      span {
+        text-align: right;
+        float: left;
+        font-size: 14px;
+        color: #606266;
+        line-height: 40px;
+        padding: 0 12px 0 0;
+        box-sizing: border-box;
+      }
+      .search-city {
+        position: relative;
+        font-size: 14px;
+        display: inline-block;
+        width: 100%;
+      }
+      .submit-side {
+        font-size: 14px !important;
+      }
+    }
+  }
+  .create-right {
+    width: 200px;
+    // border: 1px springgreen solid;
+    color:inherit;
+    text-align: center;
+    margin-top:15px;
+    .caogaotitle{
+      cursor:pointer;
+      color:#00bed4;
+        .el-icon-edit{
+          color: #00bed4;
+          margin-top:10px;
+        }
+    }
+  }
+}
+
+// 富文本框高度
     .richTextBox{
         height: 300px;
         .VueEditor{
-            height: 250px;
+          height: 250px;
         }
     }
-    
 </style>

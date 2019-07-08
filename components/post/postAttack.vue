@@ -11,7 +11,7 @@
                 style="border:none"
                 class="PostInput"
                 type='text' 
-                placeholder="请输入想去的地方，比如：'你家或我家'"
+                placeholder="请输入想去的地方，比如：'杭州'"
                 />
                 <span class="PostSpan">
                     <i class="el-icon-search"></i>
@@ -135,7 +135,7 @@ export default {
         this.pageIndex = val
         // 计算列表数据
         this.arr = (this.pageIndex - 1) * this.pageSize,
-                this.pageIndex * this.pageSize
+          this.pageIndex * this.pageSize
     }
   },
   // 页面加载完成后请求数据
@@ -150,9 +150,9 @@ export default {
 
       }
     }).then(res => {
-      console.log(res);
+      // console.log(res);
       this.arr = res.data.data;
-      console.log(this.arr);
+      // console.log(this.arr);
     });
   }
 };
