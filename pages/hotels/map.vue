@@ -1,6 +1,5 @@
 <template>
 <div id="container" class="map-test">
-    改动
 </div>
     
 </template>
@@ -22,7 +21,7 @@ export default {
 
 <style>
 .map-test{
-    height: 500px;
-    width: 1500px;
+    height: 360px;
+    width: 640px;
 }
 </style>

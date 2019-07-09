@@ -16,12 +16,12 @@
            <div class="filter-group">  
                <div class="group-text">住宿等级</div>
                <div class="group-options">
-                   <el-dropdown trigger="click" v-model="group">
+                   <el-dropdown trigger="click" v-model="group" >
                         <span class="el-dropdown-link">
                             {{group}}
                             <i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
-                        <el-dropdown-menu slot="dropdown" >
+                        <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item icon="el-icon-check" >一星</el-dropdown-item>
                             <el-dropdown-item icon="el-icon-check" >二星</el-dropdown-item>
                             <el-dropdown-item icon="el-icon-check">三星</el-dropdown-item>
@@ -101,10 +101,25 @@ export default {
      data() {
       return {
         value: 0,
-        group:"不限"
+        group:"不限",
+        star:""
       }
     },
-    
+    props:{
+        data:{
+            type:Object,
+            default:{}
+        }
+    },
+    watch:{
+       data:{
+           handler(newVal,oldVal){
+            //    console.log(newVal,1231);
+           },
+           deep: true
+       }
+    }
+   
 }
 </script>
 

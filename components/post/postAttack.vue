@@ -52,11 +52,11 @@
         
         <!-- 地点详情 -->
         <div class="AsideDetail"
-        v-for='(item,index) in arr'
+        v-for='(item,index) in dataList'
         :key='index'>
-            <a href="#">
+            <a href="javascript:;" @click="headlelink(item)">
             <!-- 巴塞罗那 -->
-            <p class="AsideDetailP">
+            <p class="AsideDetailP" >
                 <!-- 塞班贵？一定是你的打开方式不对！6000块玩转塞班 -->
                 {{item.title}}
             </p>
@@ -100,15 +100,15 @@
     </div>
         <!-- 分页功能 -->
         <div class="block">
-                <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="pageIndex"
-                :page-sizes="[5, 10, 15, 20]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-            </el-pagination>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pageIndex"
+            :page-sizes="[5, 10, 15, 20]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+          </el-pagination>
         </div>
     </el-row>
     
@@ -119,40 +119,51 @@
 export default {
   data() {
     return {
-        arr: [],
-    //   分页数据
-        pageIndex: 1,
-        total:0,
-        pageSize:5,
+      data:[],
+      dataList: [],
+      //   分页数据
+      pageIndex: 1,
+      pageSize:5,
+      total: 0,
+      id:1
     };
   },
   methods: {
-    handleSizeChange(val) {
-        this.pageSize = val
-      console.log(`每页 ${val} 条`);
+    headlelink(item){
+      // console.log(item);
+      this.id = item.id
+      this.$router.push({
+        path:"post/detail",
+        query:{
+          id:1
+        }
+      })
     },
-    handleCurrentChange(val) {
-        this.pageIndex = val
-        // 计算列表数据
-        this.arr = (this.pageIndex - 1) * this.pageSize,
-          this.pageIndex * this.pageSize
+
+    handleSizeChange(value) {
+      this.pageSize = value;
+    },
+    handleCurrentChange(value) {
+
+       this.pageIndex = value;
+            // 计算截图列表的数据
+            this.dataList = this.data.slice(
+            (this.pageIndex - 1) * this.pageSize,
+            this.pageIndex * this.pageSize)
     }
   },
   // 页面加载完成后请求数据
   mounted() {
     this.$axios({
       url: "/posts",
-      method: "GET",
-      params:{
-        city:this.$route.query.city,
-        _start:this.start,
-        _limit:this.limit,
-
-      }
+      method: "GET"
     }).then(res => {
-      // console.log(res);
-      this.arr = res.data.data;
-      // console.log(this.arr);
+      console.log(res);
+      // 页面总条数
+      this.total = res.data.total;
+      this.data=res.data.data
+      this.dataList = res.data.data.slice(0, 5);
+      // (pageIndex - 1) * this.pageSize,this.pageIndex * this.pageSize
     });
   }
 };
@@ -229,72 +240,57 @@ export default {
       }
     }
   }
-  .Aside_Box{
-
-  
-  .AsideDetail {
-    padding: 20px 0;
-    .AsideDetailP {
-      margin-bottom: 15px;
-      font-weight: 400;
-      font-size: 18px;
-      &:hover {
-        color: orange;
-      }
-    }
-    .AsideDetailSpan {
-      margin-bottom: 15px;
-      line-height: 1.5;
-      font-size: 14px;
-      height: 63px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      color: #999;
-    }
-    .AisdeBock {
-      width: 700px;
-      height: 150px;
-      margin: 10px 0;
-      overflow: hidden;
-      .AsideImg {
-        display: inline-block;
-        img {
-          width: 220px;
-          height: 150px;
-        }
-      }
-    }
-    // 小图标部分
-    .AisdeBox {
-      font-size: 14px;
-      color: #999;
-      .AisdeBoxName {
-        a {
+  .Aside_Box {
+    .AsideDetail {
+      padding: 20px 0;
+      .AsideDetailP {
+        margin-bottom: 15px;
+        font-weight: 400;
+        font-size: 18px;
+        &:hover {
           color: orange;
         }
       }
-      .AisdeBoxLike {
-        color: orange;
+      .AsideDetailSpan {
+        margin-bottom: 15px;
+        line-height: 1.5;
+        font-size: 14px;
+        height: 63px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        color: #999;
       }
-      // .AisdeBoxAddress {
-      // }
+      .AisdeBock {
+        width: 700px;
+        height: 150px;
+        margin: 10px 0;
+        overflow: hidden;
+        .AsideImg {
+          display: inline-block;
+          img {
+            width: 220px;
+            height: 150px;
+          }
+        }
+      }
+      // 小图标部分
+      .AisdeBox {
+        font-size: 14px;
+        color: #999;
+        .AisdeBoxName {
+          a {
+            color: orange;
+          }
+        }
+        .AisdeBoxLike {
+          color: orange;
+        }
+        
+      }
     }
   }
-  }
 }
-// </script>
 
-// <style>
-// .el-dropdown {
-//     vertical-align: top;
-// }
-// .el-dropdown + .el-dropdown {
-//     margin-left: 15px;
-// }
-// .el-icon-arrow-down {
-//     font-size: 12px;
-// >>>>>>> 3ae2dba6253cee84286024121287100913d26461
-// }
-// </style>
+</style>

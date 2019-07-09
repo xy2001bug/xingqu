@@ -27,7 +27,7 @@
                 <p>评论</p>
                 </i> 
                 </div>
-            <div @click="hodleShouChang">
+            <div @click="handleShouChang">
                 <i class="el-icon-star-off">
                 <p>收藏</p>
                 </i>
@@ -54,7 +54,10 @@
 
 
             <div class="youbian">
-                <div> 相关攻略</div>
+                <div class="youbian_gonglue"> 相关攻略</div>
+                <div  class="youbian_gonglue_"  v-for="(item,key,index ) in data_Data" :key="index">
+                        {{key}}
+                </div>
             </div>
      </div>
 </template>
@@ -68,26 +71,57 @@ export default {
         data() {
             return {
                 dataList:[],
+                data_Data:"",
+                id:"",//获取的ID
             }
         },
         mounted() {
-            this.$axios({
+
+            this.hodeleGongLue ();
+            this.huoquluyouId ();
+
+                 this.$axios({
                 url:`/posts`,
                 method:"GET",
+                params:{
+                    city:+this.id
+                }
             }).then(res=> {
-                console.log(res.data);
-                this.dataList = res.data.data[0]
+                console.log(res,1213);
+                this.dataList = res.data.data[0];
+                this.data_Data = res.data
             })
+
+            
+            
         },
         methods:{
-            hodleShouChang:function(){
+            handleShouChang(){
                 this.$axios({
                     url:`/posts/star`,
                     method:"GET",
                 }).then(res => {
-                    console.log(res);
+                    // console.log(res);
                     
                 })
+            },
+            // 封装一个请求数据
+            hodeleGongLue(){
+               this.$axios({
+                url:`/posts/recommend`,
+                method:"GET",
+            }).then(res=> {
+                // console.log(res );
+                this.data_Data = res.data.data
+             
+            })
+            },
+            // 封装一个获取路由的函数
+            huoquluyouId(){
+                 const query = this.$route.query.id;
+                //  console.log(query);
+                 
+                 this.id = query
             }
         }
 }
@@ -142,6 +176,15 @@ export default {
           max-width: 700px !important ;
        }
     .box .youbian{
-        width: 300px;;
+        width: 300px;
     }
+    .box .youbian .youbian_gonglue{
+        font-size: 20px;
+        font-weight: 700;
+        padding: 20px 0 20px 0;
+        border-bottom: 1px solid #ccc; 
+    }
+     .box .youbian .youbian_gonglue .youbian_gonglue_{
+         height: 300px;
+     }
 </style>

@@ -1,37 +1,50 @@
 <template>
-    <el-row type="flex" justify="space-between" class="hotel-int">
+<div :v-if="isShow" :class="{isShow}" >
+ <el-row type="flex" justify="space-between" class="hotel-int" 
+    v-for="(item,index) in data.data" :key="index" >
         <el-col :span="8">      
-            <img src="https://p0.meituan.net/hotel/ce4339f0baea06372107c3640fa0dbe183731.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20" alt="">
+            <img :src="item.photos">
         </el-col>
         <el-col :span="8" class="hotel-intstrus">
-            <div class="instrus-title">
-                南京古都文化酒店（鼓楼店）(如家联盟)
+            <div class="instrus-title" @click="heahleSelect(item)">
+                {{item.name}}
             </div>
             <div class="instrus-title-english">
-                nan jing gu du wen hua hotel （ gu lou dian ）(ru jia lian meng)
+                {{item.alias}}
             </div>
             <div class="hotel-evaluate">
                 <span class="evaluate-level">
-                    <i class="el-rate__icon el-icon-star-on"></i>
-                    <i class="el-rate__icon el-icon-star-on"></i>
-                    <i class="el-rate__icon el-icon-star-on"></i>
-                    <i class="el-rate__icon el-icon-star-on"></i>
-                    4分
+                    <el-rate
+                    class="route-stars"
+                        v-model="item.stars"
+                        disabled
+                        show-score
+                        text-color="#ff9900"
+                        score-template="{value}">
+                        </el-rate>
+                    分
                 </span>
                 <span>
-                    <i>5</i>条评价
+                    <i>{{item.all_remarks}}</i>条评价
                 </span>
                 <span>
-                    <i>58</i>篇游记
+                    <i>{{item.roomCount}}</i>篇游记
                 </span>
             </div>
             <div class="hotel-address">
                 <i class="iconfont iconlocation"></i>
-                位于: 北京东路8号(江苏电视台对面，北京东路与丹凤街交汇处东南角)
+                {{item.address}}
             </div>
         </el-col>
-        <el-col :span="8" class="hotel-link">           
-                <a href="#" class="link-other">
+        <el-col :span="8" class="hotel-link" >           
+                <a :href="`${othersHotel[i]}`" class="link-other" v-for="(v,i) in item.products" :key="i">
+                    <span>{{v.name}}</span>
+                    <span>
+                        <i>￥ {{v.price}}</i>起
+                        <i class="el-icon-arrow-right"></i>
+                    </span>
+                </a>
+                <!-- <a href="#" class="link-other">
                     <span>携程</span>
                     <span>
                         <i>￥ 96</i>起
@@ -44,26 +57,97 @@
                         <i>￥ 96</i>起
                         <i class="el-icon-arrow-right"></i>
                     </span>
-                </a>
-                <a href="#" class="link-other">
-                    <span>携程</span>
-                    <span>
-                        <i>￥ 96</i>起
-                        <i class="el-icon-arrow-right"></i>
-                    </span>
-                </a>
+                </a> -->
 
         </el-col>
     </el-row>
+    <div class="hotel-pagination">
+         <el-pagination
+            @current-change="headleCurrentChange"
+            layout="prev, pager, next"
+            :total="data.total">
+        </el-pagination>
+    </div>
+</div>
+   
 </template>
 
 <script>
 export default {
+    data(){
+        return{
+            starsLength:0,
+            isShow:false,
+            _start:0,
+            othersHotel:[
+                "https://hotels.ctrip.com/",
+                "http://hotel.elong.com/",
+                "https://www.hotels.cn/"
+            ]
+        }
+    },
+    props:{
+        data:{
+            type:Object,
+            default:{}
 
+        }
+    },
+    mounted(){
+        setTimeout(() => {
+            // console.log(this.data,123);
+            if(this.data.total == 0){
+         
+                this.isShow = true
+            }
+            
+        }, 300);
+    },
+    methods:{
+
+        //点击酒店的时候触发【
+        heahleSelect(item){
+            console.log("选择酒店",item);
+            const id = item.id
+            this.$router.push({
+                path:"/hotels/detail",
+                query:{
+                    city:+this.$route.query.city,
+                    id
+                }
+            })
+        },
+        //改变当前页的时候触发
+        headleCurrentChange(val){
+            this._start = this.data.nextStart
+                this.$axios({
+                url:"/hotels",
+                params:{
+                   city:+this.$route.query.city,
+                   _limit:10,
+                   _start:this._start,               
+                }
+            }).then(res=>{
+               
+                this.data = res.data
+            })
+          
+
+        }
+        //
+    }
 }
 </script>
 
 <style scoped lang="less">
+.hotel-pagination{
+    float: right;
+    height: 20px;
+}
+.isShow{
+    height: 1px;
+    overflow: hidden;
+}
 .hotel-int{
     height: 265px;
     width: 1020px;
@@ -77,6 +161,7 @@ export default {
         .instrus-title{
             font-size: 22px;
             font-weight: 400;
+            cursor: pointer;
         }
         .instrus-title-english{
             color: #aaaaaa;
@@ -89,6 +174,9 @@ export default {
             }
             .evaluate-level{
                 color: orange;
+                .route-stars{
+                    display: inline;
+                }
             }
              padding-top: 15px;
             font-size: 14px;
@@ -109,6 +197,9 @@ export default {
              border-bottom:1px solid #ddd;
             display: flex;
             justify-content: space-between;
+            &:active{
+                background-color: #eee;
+            }
             span{
                 display: inline-block;
                 color: #666;

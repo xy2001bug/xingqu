@@ -22,7 +22,7 @@
     </div>
 
     <!--评论区部分  -->
-    <div class="comment" v-for="(item, key, index  ) in pinlun" :key="index">
+    <div class="comment" v-for="(item, key, index  ) in fengye.dataList" :key="index">
       <div class="comment_">
         <div class="comment_1">
           <img src="../../avatar.jpg" alt />
@@ -48,10 +48,11 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="fengye.pageIndex"
         :page-sizes="[2, 4, 6, 8]"
+        :page-size="fengye.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="dataInput.total"
+        :total="fengye.total"
       ></el-pagination>
     </div>
   </div>
@@ -68,19 +69,23 @@ export default {
       dialogImageUrl: "",//上传图片的图片路径存放区
       dialogVisible: false, //上传图片
 
-      currentPage4: 1, //分页的单次显示条
-
 
         fengye:{
-        pageIndex:"",
-        pageSize:"1",
-        dataList:[],
+        pageIndex:1,//分页的
+        total:0,//分页的总数据
+        pageSize:2,//当前页面显示几条数据
+        dataList:[],//定义一个数组来接收
         }
 
     };
 
     
   },
+    mounted() {
+   this.handleHuoQu()
+ 
+  },
+
   methods: {
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -93,29 +98,38 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
+
+    //  分页数据
     handleCurrentChange(val) {
       console.log(val);
-      this.pageIndex = val;
-
-    
+      this.fengye.pageIndex = val;
+      this.fengye.dataList = this.dataInput.data.slice(
+        (this.fengye.pageIndex-1) * this.fengye.pageSize,  
+      this.fengye.pageIndex * this.fengye.pageSize)
+      console.log(this.fengye.dataList);
       
     },
     handleTiJiao() {
       console.log(this.dialogImageUrl);
       console.log(this.input);
+    },
+
+    // 封装一个获取数据请求
+    handleHuoQu(){
+         this.$axios({
+        url: `/posts/comments`,
+        method: "GET"
+      }).then(res => {
+        console.log(res);
+        this.dataInput = res.data;
+        this.pinlun = res.data.data;
+        this.fengye.total = res.data.total;
+        console.log(this.dataInput );
+        this.fengye.dataList = this.dataInput.data.slice(0,2)
+    });
     }
   },
-  mounted() {
-    this.$axios({
-      url: `/posts/comments`,
-      method: "GET"
-    }).then(res => {
-      console.log(res);
-      this.dataInput = res.data;
-      this.pinlun = res.data.data;
-      console.log(this.dataInput );
-    });
-  }
+
 };
 </script>
 

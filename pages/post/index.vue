@@ -34,17 +34,18 @@ export default {
     min-width:1000px;
     margin:0 auto;
     // background-color: #000;
-    height: 1600px;
-    position: relative;
+    // height: 1870px;
+    display: flex;
+    justify-content: space-between;
     .IndexLeft{
         width: 261px;  
-        position: absolute;
+
         left: 0;
     }
     .IndexRight{
         width: 700px;
-        height: 1000px;
-        position: absolute;
+        // height: 1000px;
+
         right: 0;
     }
 }

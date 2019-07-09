@@ -19,8 +19,8 @@
             <div class="PostToponym" >
                 <span class="PostToponymSpan"
                     v-for='(item,index) in data'
+                    v-if="curret==index"
                     :key='index'
-                    v-if='curret==index'
                     @mouseenter='PostMouseenter(index)'
                     @mouseleave="PostMouseleave(index)"
                     >
@@ -90,6 +90,7 @@ export default {
 <style scoped lang="less">
 // 这是大盒子
 .PostMainbox {
+  
   // 城市部分
   .PostMainboxHot {
     position: relative;

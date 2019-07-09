@@ -6,28 +6,31 @@
       <el-row class="header-left">
         <el-row class="search-options">
           <!-- 区域 -->
-          <div  :class="{showheight:isShowHight}" >
-            <el-row type="flex" class="ins-area"  >
-                        <el-col :span="3">
-                          <div class="area-title">区域：</div>
-                        </el-col>
-                        <el-col>
-                          <a href="javascript:;" class="a-link">全部</a>
-                          <span class="a-link" v-for="(item,index) in scenic || []" :key="index" 
-                          :class="{active: index === isActive}" 
-                          @click="headleCheckActive(item,index)">
-                                <a href="javascript:;">{{item.name}}</a>
-                          </span>
-                          
-                        </el-col>
-                      </el-row>
-          </div>
-          <div class="icon-class">
-            <a href="#">
-              <i class="el-icon-d-arrow-right icon-up" @click="headleShowHight" :class="{down:isShowHight}"></i>
-              <span>等{{scenic.length || 0}}个区域</span>
-            </a>
-          </div>
+          <el-row type="flex" class="ins-area">
+            <el-col :span="3">
+              <div class="area-title">区域：</div>
+            </el-col>
+            <el-col>
+              <div class="a-link">
+                    <a href="javascript:;" class="active">全部</a>
+                    <a href="javascript:;">镇兴路沿线</a>
+                    <a href="javascript:;">视觉艺术学院</a>
+                    <a href="javascript:;">大成名店</a>
+                    <a href="javascript:;">南京西站</a>
+                    <a href="javascript:;">铜山镇</a>
+                    <a href="javascript:;">大桥南路</a>
+                    <a href="javascript:;">宝塔路沿线</a>
+                    <a href="javascript:;">北岭路沿线</a>
+                    <a href="javascript:;">苜蓿园</a>
+                    <a href="javascript:;">弘阳广场/新一城</a>
+        
+              </div>
+              <a href="#">
+                <i class="el-icon-d-arrow-right icon-up"></i>
+                <span>等43个区域</span>
+              </a>
+            </el-col>
+          </el-row>
           <!-- 攻略 -->
           <el-row type="flex" class="ins-strategy">
             <el-col :span="3">
@@ -59,18 +62,16 @@
                 <el-tooltip class="item i-tips-text" effect="dark" content="等级均价由平日价格计算得出，节假日价格会有上浮。" placement="top-start">
                     <el-button id="tips-btn"></el-button>
                   </el-tooltip>
-                ￥210
+                ￥332
               </span>
               <span>
-                <i class="el-icon-star-on"></i>
-                <i class="el-icon-star-on"></i>
                 <i class="el-icon-star-on"></i>
                 <i class="el-icon-star-on"></i>
                 <i class="el-icon-star-on"></i>
                  <el-tooltip class="item i-tips-text" effect="dark" content="等级均价由平日价格计算得出，节假日价格会有上浮。" placement="top-start">
                     <el-button id="tips-btn"></el-button>
                   </el-tooltip>
-                ￥330
+                ￥332
               </span>
               <span>
                 <i class="el-icon-star-on"></i>
@@ -79,7 +80,7 @@
                  <el-tooltip class="item i-tips-text" effect="dark" content="等级评定是针对房价，设施和服务等各方面的综合评价" placement="top-start">
                     <el-button id="tips-btn"></el-button>
                   </el-tooltip>
-                ￥531
+                ￥332
               </span>
             </el-col>
           </el-row>
@@ -97,149 +98,33 @@
 
 <script>
 export default {
-  data(){
-    return{
-      isActive:0,
-      isShowHight:false,
-      //响应过来的数据
-      hotelData:{},
-      map:null,//存放地图
-      scenic:[],
-      scenicId:null,
-      
-    }
-  },
-  props:{
-    data:{
-      type:Object,
-      default:{}
-    }
-  },
-  methods:{
-    //点击选择区域
-    headleCheckActive(item,index){
-      // console.log(item);
-      this.isActive = index
-      this.scenicId = item.id
-      // console.log(item.id);
-      this.$router.push({
-        url:"/hotels",
-        query:{
-          city:+this.$route.query.city,
-          scenic:this.scenicId
-        }
-      })
-    },
-    //点击展开高度
-    headleShowHight(){
-      this.isShowHight = !this.isShowHight
-    },
-    //计算房价
-    computedPrice(){
-      let price = this.data
-    }
-  },
     
 mounted(){
-  setTimeout(() => {
-      this.hotelData = this.data
-      const {data} = this.data
-      if(data.length ==0){
-        const obj = {
-          scenic:[],
+        window.onLoad  = function(){
+                var map = new AMap.Map('map');
         }
-        data.push(obj)
-      }
-      this.scenic = data[0].scenic;
-      this.computedPrice()
-   
-        //这里要用箭头函数
-        window.onLoad  = ()=>{
-          if(this.data.total > 0){
-            var {longitude,latitude} = this.data.data[0].location
-    
-          }
-          else{
-            var longitude = 118.39
-           var latitude = 31.90
-          }
-
-                let map = new AMap.Map('map',{
-                   center: [longitude, latitude],
-                }); 
-                this.map = map;
-            //     // 工具条插件
-            //    var toolbar = new AMap.ToolBar();
-            //     map.addControl(toolbar);
-
-            //     // 点标记
-
-                  if(!this.hotelData.data){
-                    // console.log("里面是空的");
-                    return;
-                  }
-                for(let i=0;i<this.hotelData.data.length;i++){
-                    let tempLocation = this.hotelData.data[i]
-                    // console.log(tempLocation);
-                    const {longitude,latitude} = tempLocation.location;
-                    //添加点标记
-                    
-                    let marker= new AMap.Marker({
-                    // 自定义图片内容
-                    // content: `<div class="marker-route marker-marker-bus-from">${i}</div>`,
-                    position: new AMap.LngLat(longitude, latitude),   // 经纬度对象
-                    title: tempLocation.name,
-                   
-                });
-                  map.add(marker)
-                 
-                }
-
-               
-
-            // var marker2 = new AMap.Marker({
-            //     //content: '<div class="marker-route marker-marker-bus-from">2</div>',
-            //     position: new AMap.LngLat(118.971, 31.428),   // 经纬度对象
-            //     title: '高淳县淳溪镇镇'
-            // });
-
-            // // 将创建的点标记添加到已有的地图实例：
-            // map.add([marker1, marker2]);
-        }
-       
         var url = `https://webapi.amap.com/maps?v=1.4.15&key=${"e3379ac7718631846d9e4aae9901ce32"}&callback=onLoad`;
         var jsapi = document.createElement('script');
         jsapi.charset = 'utf-8';
         jsapi.src = url;
         document.head.appendChild(jsapi);
-        }, 500);
-    },
-    
-
-}
+    }
+};
 </script>
 
 <style scoped lang="less" >
 .header{
-
        .header-left{
            padding: 0 10px 10px 0;
            .search-options{
                color: #666;
                font-size: 14px;
-                 .showheight{
-               height: 50px;
-               overflow: hidden;
-             
-
-              }
                .ins-area{
-                    overflow: hidden; 
-                   color: #666;
+                   margin-bottom: 20px; 
                    .a-link > a{
-            
-                           margin:0 5px 5px 5px;
+                           margin-right: 1em;
                             padding: 0 2px;
+                            border-radius: 4px;
                             display: inline-block;
                             cursor: pointer;
                             text-decoration: none;
@@ -251,26 +136,14 @@ mounted(){
                            &:active{
                                background-color: #eee;
                            }
-                           
                    }
                    .active{
                        background-color: #eee;
-                       border-radius: 5px; 
-                       
                    }
-                   
-               }
-               .icon-class{
-                 margin-left: 70px; 
-                 margin-bottom: 10px;
-                  a{
-                     color: #666;
+                   a{
                        .icon-up{
                                transform: rotate(270deg);
                                 color: #f90;
-                       }
-                       .down{
-                         transform: rotate(90deg);
                        }
                        span{
                            color: #666;

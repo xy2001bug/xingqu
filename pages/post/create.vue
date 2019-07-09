@@ -32,14 +32,14 @@
 
       <el-row class="submit-button">
         <el-button type="primary" @click="handleSubmit">发布</el-button>
-        <el-button @click="handleDraft" class="caogao">保存到草稿箱</el-button>
+        <el-button @click="handleDraft" class="draft">保存到草稿箱</el-button>
         
       </el-row>
     </el-form>
     <div class="create-right">
       <el-button plain class="create-right-title">草稿箱({{form.id}})</el-button>
-      <el-row v-for="(item, index) in caogao" :key="index">
-        <span @click="handleChange(index)"  :v-model="index" class="caogaotitle">{{item.title}} <i class="el-icon-edit"></i></span>       
+      <el-row v-for="(item, index) in draft" :key="index">
+        <span @click="handleChange(index)"  :v-model="index" class="draftTitle">{{item.title}} <i class="el-icon-edit"></i></span>       
       </el-row>
     </div>
   </div>
@@ -57,8 +57,9 @@ export default {
   components: { VueEditor },
   data() {
     return {
-      caogao: [],
+      draft: [],
       article: [],
+      content: "",
       form: {
         title: "",
         city: "",
@@ -69,7 +70,6 @@ export default {
         city: [{ required: true, message: "请输入城市名", trigger: "blur" }],
         title: [{ required: true, message: "请输入标题", trigger: "blur" }]
       },
-      content: "",
         // 富文本相关
       config: {
         modules: { 
@@ -126,9 +126,9 @@ export default {
 
   methods: {
     handleChange(index) {
-      const localPost = JSON.parse(localStorage.getItem("post-caogao"));
+      const localPost = JSON.parse(localStorage.getItem("post-draft"));
       this.form.title = localPost[index].title;
-      this.content = localPost[index].content;
+      this.form.content = localPost[index].content;
       this.form.city = localPost[index].city;
     },
     // 选择城市
@@ -196,8 +196,7 @@ export default {
       const data = {
         content: this.content,
         city: this.form.city,
-        title: this.form.title,
-        destCode: this.destCode
+        title: this.form.title
       };
       const {
         user: { userInfo }
@@ -220,11 +219,10 @@ export default {
         this.content = "";
       });
       }
-      this.caogao.splice(this.index,1)
-      localStorage.removeItem("post-caogao")
-      this.form.id = this.caogao.length;
+      this.draft.splice(this.index,1)
+      localStorage.removeItem("post-draft")
+      this.form.id = this.draft.length;
     },
-    // draft
     handleDraft() {
       const token = this.$store.state.user.userInfo.token;
       console.log(token);
@@ -253,19 +251,19 @@ export default {
         return;
       }
       if (rules.title.value) {
-        this.caogao.unshift({
+        this.draft.unshift({
           content: this.content,
           city: this.form.city,
           title: this.form.title
         });
-        localStorage.setItem("post-caogao", JSON.stringify(this.caogao));
-        this.form.id = this.caogao.length;
+        localStorage.setItem("post-draft", JSON.stringify(this.draft));
+        this.form.id = this.draft.length;
       }
     }
   },
   mounted() {
-    this.caogao = JSON.parse(localStorage.getItem("post-caogao") || `[]`);
-    this.form.id = this.caogao.length;
+    this.draft = JSON.parse(localStorage.getItem("post-draft") || `[]`);
+    this.form.id = this.draft.length;
   }
 };
 </script>
@@ -336,11 +334,10 @@ export default {
   }
   .create-right {
     width: 200px;
-    // border: 1px springgreen solid;
     color:inherit;
     text-align: center;
     margin-top:15px;
-    .caogaotitle{
+    .draftTitle{
       cursor:pointer;
       color:#00bed4;
         .el-icon-edit{

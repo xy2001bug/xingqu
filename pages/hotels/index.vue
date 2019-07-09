@@ -9,31 +9,20 @@
             </el-breadcrumb>
         </el-row>
         <!-- 这是搜索栏 -->
-        <el-row type="flex" justify="space-between" class="search-input">
-            <el-input placeholder="请输入酒店"></el-input>          
-             <el-date-picker type="date" placeholder="请选择入住日期" style="width: 100%;" @change="handleDate" ></el-date-picker>
-             <el-date-picker type="date" placeholder="请选择离开日期" style="width: 100%;" @change="handleDate" ></el-date-picker>
-            <el-input
-                placeholder="人数未定"
-                suffix-icon="el-icon-user"
-                v-model="input1">
-            </el-input>
-            <el-button type="primary">查看价格</el-button>
-        </el-row>
+        <div>
+            <searchHotel />
+        </div>
         <!-- 这是地图和区域介绍 -->
         <div>
-            <Map />
+            <Map :data="hotelData"/>
         </div>
         <!-- 这是过滤条件 -->
         <div class="filter-list">
-            <FilterList />
+            <FilterList :data="hotelData"/>
         </div>
         <!-- 这是酒店的介绍 -->
         <div class="hotel-intrus">
-            <HotelIntroduce />
-            <HotelIntroduce />
-            <HotelIntroduce />
-            <HotelIntroduce />
+            <HotelIntroduce :data="hotelData"/>
         </div>
     </div>
 </template>
@@ -42,29 +31,62 @@
 import Map from "@/components/hotel/map.vue";
 import FilterList from "@/components/hotel/filter-list.vue"
 import HotelIntroduce from "@/components/hotel/hotel-introduce.vue"
+import SearchHotel from "@/components/hotel/search-hotel.vue"
 export default {
     data(){
         return{
-            input1:1
+            hotelData:{},
+            hotelFilterData:{},
         }
     },
-    components:{
+    
+    
+    components:{ 
+                SearchHotel,
                 Map,
                 FilterList,
                 HotelIntroduce,
+              
+    },
+     watch:{
+       hotelData:{
+           handler(newVal,oldVal){
+             this.hotelData = newVal;
+           },
+           deep: true
+       }
     },
     mounted(){
-        this.$axios({
-            url:'/hotels'
-        }).then(res =>{
-            console.log(res);
-        })
+       this.getHotelData();
+    },
+    watch:{
+       $route: function (newVal, oldVal) {
+            if (newVal !== oldVal)  {
+                //直接强制刷新！！1
+             location.reload();
+        }
+       }
     },
     methods:{
-        //选择时间触发
-        handleDate(){
-
-        }
+        //获取全部数据
+       getHotelData(){
+           if(!this.$route.query.city){
+               this.$route.query.city = 74
+           }
+        this.$axios({
+            url:'/hotels',
+            params:{
+                city:+this.$route.query.city 
+            }
+        }).then(res =>{    
+            this.hotelData = {...res.data};  
+            // console.log(this.hotelData,"第一");   
+            this.hotelFilterData = this.hotelData    
+      
+        })
+       },
+           
+       
     }
 
 }
@@ -73,13 +95,8 @@ export default {
 <style scoped lang="less">
 .container{
     width:1000px;
-    margin:20px auto;
-   .search-input{
-       margin: 20px 0px;
-       .el-input{
-           margin-right: 20px;
-       }
-   }
+    margin:40px auto;
+   
    .filter-list{
        border: 1px solid #ddd;
    }
